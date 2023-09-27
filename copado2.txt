@@ -1,0 +1,222 @@
+What Is Copado?
+Copado is a scalable Salesforce-native application that provides value in every stage of the Salesforce DevOps process by leveraging agile methodologies, quality and compliance features and a seamless and effortless integration with Git, all in one single tool.
+
+Copado orchestrates business transformation on the Salesforce platform by harmonizing all of your release management tools to form a single, smooth arrangement.
+Considerations Before Using Copado
+There are some points you may have to think about before starting using Copado to its full potential:
+ 
+Define your Release Process with the steps you would like to work with, starting from when the user stories are created and defined until they are released:
+
+Get a graphical overview of these steps
+oDecide if admins and developers should submit their user stories for approval.
+oDefine which quality gates you will enforce from the beginning (Running Apex Tests, Static Code Analysis, Pull Request Reviews, Compliance Scans or Selenium Testing).
+oIf your process includes review quality gates (such as Business Testing, Peer Review, Documentation Review) consider creating custom fields, validation rules and process builder flows to enforce those quality gates.
+oConsider modifying the main layouts developers will be working with (such as User Story, Project, Epic, Sprint) and add or remove fields as required. Having a defined process will help you focus on what you need to modify.
+ 
+If you want to provide your developers with more restrictive access to Copado, create a Permission Set that grants access to the users that will work with Copado.
+Assign the Copado User permission set to grant the user access to all the fields, Visualforce pages, and Apex classes in the package.
+ 
+
+
+ 
+Please consider that the license type will already restrict CCM users (no deployments to production, unable to create org differences, unable to create and execute snapshots, unable to create compliance rules, unable to create Selenium tests).
+
+You can even organize training sessions for your users to see and practice what they need to do in Copado.
+ 
+You can find more details about these considerations in the Copado Governance and Administration module.
+Check Your Salesforce Organization Edition
+One of the first things you have to do is to make sure you have the correct Salesforce organization edition to install our tool.
+
+Due to the Salesforce features Copado uses (e.g. API access), you can only install Copado in Enterprise, Unlimited, Performance, and Developer editions. It might sound obvious, but it’s a key step before you proceed with the installation process.
+How to Install
+You can install Copado from our Success community, where you can find the links to install the latest version along with extra information such as upgrade instructions, release notes, and a release calendar.
+
+ 
+
+ 
+Copado is a Salesforce managed package and you only need to install it in one Org, which will act as your Governance Org. Copado will connect to other Salesforce orgs using an OAuth authentication access method.
+
+You will be asked to enter your Salesforce login details for your Governance Org. From the security options, choose Install for Admins Only and then Approve Third Party Access. The reason you are picking the Install for Admins Only option is that you will later be opening up access to the package components for other users. 
+ 
+
+Bear in mind that the package installation might take some time. You will get a notification via email once the installation is completed. Click on Done to return to Salesforce.
+ 
+Once the installation is finished, you can navigate to Installed Packages under the Setup menu to verify that Copado has been successfully installed in your organization.
+ 
+
+Register Copado Application
+
+After the installation is completed, you need to register the Copado Application in our Copado server. You do this by navigating to the Account Summary Page and clicking on the Register Application button.
+ 
+
+
+Click on Register to finish the registration process.
+ 
+
+Whitelist IP Addresses
+If you have restrictions in your Salesforce org, you can whitelist the following IP addresses. By doing this action, you are creating a list of trusted IP addresses from which your users can access Copado backend.
+ 
+Copado has the following static IP addresses that you can whitelist in your Governance Org by going to Setup > Network Access.
+ 
+USA:
+ 
+18.233.58.2
+35.174.57.133
+54.88.136.216
+54.84.188.199
+54.173.229.200
+54.175.230.252
+ 
+Europe:
+ 
+34.246.18.129
+34.246.45.11
+52.16.121.13
+54.154.218.66
+99.80.183.117
+99.81.135.32
+ 
+	If you haven't explicitly requested support team to be under Europe region, your organization will be located under USA region by default.
+ 
+There are other points you may consider before going further:
+ 
+If there are IP Restrictions at the Profile level, you will also need to add these addresses in the Login IP Ranges section of the Profile.
+In Setup > Session Settings, ensure that the Enforce login IP ranges on every request is not enabled.
+In Setup > Session Settings, ensure that the Lock sessions to the IP address from which they originated is not enabled.
+ 
+Now that you have paid attention to the considerations, the package is installed and the IP addresses are whitelisted, let’s have a look at some prerequisites.
+
+Overview
+Good, you have installed Copado and you are ready to start your release journey. There are some prerequisites you need to perform in order to enable users to start working with our tool:
+
+Assign a package license.
+Assign the Copado User permission set.
+Create a Git Repository in any Git provider.
+Create the relevant sandboxes (developer, integration, testing).
+Create a SysAdmin user in all the sandboxes that are going to be part of your release process.
+Package License
+Copado is a Managed Package that is installed in a Production Org, so all users that will be working with Copado must have a Salesforce license that grants them access to Managed Package objects. The process of the package license assignment is the same standard process performed through Salesforce.
+Copado User Permission Set
+It might be the case that you don’t have all the necessary permissions to work with Copado. The Copado package provides the Copado User permission set which grants access to all Copado functionality. To make sure you have access, assign it to yourself. You can clone this permission set and customize it according to your needs. An approach can be based on roles: Developers, Admin, Release Manager, QA Testers or Scrum Master. Here is an example: if you want to provide your developers with more restrictive access to Copado, clone the Copado User permission set, name it Copado Developer and limit the access and visibility to only the required elements for them to do their tasks.
+Git Repository
+A Git repository is a storage location where the versions of your files may be stored. This could be a hosted location or your own Git server.
+ 
+Before setting up the Git Repository in Copado, you will need a Git Service Provider account such as Github, Bitbucket, Gitlab or Azure DevOps. Copado supports any kind of Git Provider. If you don’t have an account, create one. If you already use an account, you are ready to go. This will be the storage location of your files.
+ 
+It might be the case that you will need to commit the .gitignore file in the master branch in order to avoid tracking unnecessary files such as package.xml, and thus keeping your branches with only necessary files. You can find a more complete sample of a .gitignore here.
+Relevant Sandboxes
+As you have previously defined your release process, you should have a graphical overview of the required sandboxes by now. Decide how many sandboxes you need in your process and go ahead and create them. Are you using two developments, one UAT and one hotfix sandbox?
+ 
+ 
+Are you using any additional sandboxes, such as integration, testing or pre-production? Go ahead and create them all because you will use them in the setup.
+SysAdmin User
+As you will be deploying changes to different environments, you will need to grant Copado access to perform actions in all these environments. In order to do this, let’s create a SysAdmin user in all the sandboxes that you will use in your release process. You may be already familiar with the process of creating a system user, as many Salesforce implementations usually have an admin-user login, usually for integration purposes.
+ 
+Now that you are ready to go, continue with the setup.
+
+Copado Concepts
+Although the setup process can be done manually from the Getting Started page, as of Summer ‘19, this can be done from the pipeline wizard. The whole process will be explained in a moment, but for now, let’s have a look at some of the key actions performed by Copado when using the wizard to better understand some of the key Copado concepts.
+ 
+First of all, you need to create the pipeline record, as this will start the pipeline wizard. A pipeline is a list of connections defining a path in which components are going to move through the release management process. Whenever you work with user stories under a project linked to a pipeline, Copado will know the next environment where to deploy. A pipeline connection is the path from a source org to a destination org. When working with Branch Management the pipeline connection also holds the Git branch for the environment. The destination branch will be inferred by Copado.
+ 
+The next step will be to authenticate your center of excellence organization (the Salesforce organization where Copado is installed, also known as governance org or main org). Copado orchestrates all the metadata changes in the environments by connecting to each environment via credentials. A credential is a connection between a user and an environment. Credentials are authenticated using the OAuth protocol where no passwords are exchanged. Therefore, even if you change the org’s password or security token, the connection with Copado remains active. It is key that the first credential to be validated be the one that belongs to the organization where Copado is installed. Once the authentication is completed, a new Copado API key will be created for your user. An API key is a unique code that is passed into an API to identify the application or user that is making the API request. In Copado, an API key allows actions to be scheduled securely and validated on the Copado server. API keys are unique to the Salesforce user.
+ 
+Additionally, an environment record is created automatically in Copado when a credential is authenticated. An environment in Copado represents a Salesforce organization. The Org ID will be the external ID, this means that an environment may have multiple credentials, different users of the same organization. By default, the environment name will get the credential name upon creation, but you can update it afterwards. Bear in mind that environments cannot be created manually. Copado automatically creates an environment from the first credential that is authenticated.
+ 
+ 
+ 
+The next step is to assign a Copado license to your user. These licenses are independent of the Salesforce package license. While the Copado Deployer license grants you access to Copado components, the Copado User license allows you to perform actions with Copado, such as commits or deployments.
+ 
+Now, it’s time to connect your Git repository to Copado. You will be asked to authenticate it with your user and password or with an SSH key. You will have to define the Base URLs of the repository so that you can quickly access branches, commits and pull requests directly from Copado. When defining the Base URLs, you just need to fill in the username and repository name fields. The URLs' structure will be pre-populated based on the selected Git provider.
+ 
+Optionally, you can select the pipeline template that will pre-define your initial pipeline connections. You can skip this step and create it manually later.
+ 
+You will be asked to authenticate your production org connection so that Copado can create a Git snapshot record for your production environment and run a snapshot in your master branch to initiate your repository with all the metadata. A Git Snapshot record in Copado defines a connection between a Salesforce org and a Git repository branch. Each snapshot is a junction object between an org and a Git branch. This means that, for every environment, you will have a corresponding Git snapshot record.
+ 
+Once you are done with the pipeline creation, you will be redirected to the pipeline page, which displays a chart of your current environment connections. Here is an example:
+ 
+ 
+
+Pipeline Wizard
+Follow these steps to configure a new pipeline to connect your environments:
+ 
+1.Open the App Launcher and search for the Pipelines tab. Click on New to create your first pipeline. You will be redirected to the pipeline wizard.
+2.Start the creation process. You will be asked to authenticate your Production org connection, so go ahead and validate the org credential of the org where Copado is installed.
+ 
+ 
+ 
+1.Select your role. If you are a release manager, you will be assigned a Copado Admin license.
+ 
+ 
+ 
+1.Give your pipeline a name. Then, enter a repository name and specify a Git repository provider. 
+ 
+ 
+ 
+ 
+
+Note: Each stage has a Go Back link so that you can return to a previous step and fix any potential issues before the pipeline setup is completed.
+
+ 
+1.In the next screen, select an authentication type. If you are using SSH, copy the SSH URL from your Git provider and paste it into the URI field in Copado. Then, click on Create SSH Key. Copy the generated SSH key and paste it in your Git provider’s public key. If you are using HTTPS, copy the HTTPS URL from your Git provider and paste it into the URI field in Copado. Then, provide your Git provider’s username and password. Click on Continue.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+1.Next, define the base URLs. The URLs' structure will be pre-populated, you just need to fill in the username and repository name fields. Click on Continue.
+ 
+ 
+ 
+1.Select a suitable pipeline template. Don’t worry, you can modify it later if needed. You can skip this step and create your pipeline connections later. 
+ 
+ 
+ 
+1.Then, authenticate your production org connection. If you have Copado installed in production, just click on Continue. Otherwise, select No and authenticate your production credentials.
+ 
+ 
+ 
+1.After clicking on Continue, the pipeline will create a Git snapshot for your production environment and will run a snapshot in your master branch to initiate your repository with all the metadata. Then, Copado will create all the remaining branches based on the pipeline template selected in a previous step. These snapshot steps are automatically performed by Copado for all your environments, as mentioned in a previous unit.
+ 
+ 
+ 
+1.Once you are done, click on Continue and Enjoy to be redirected to the Pipeline.
+ 
+ 
+ 
+1.Finally, you will have to authenticate the remaining org credentials by clicking on the key link in the environment box.
+Pipeline Manager
+The Pipeline Manager is a user interface that allows you to orchestrate all your metadata changes through your environment landscape.
+ 
+You can access the Pipeline Manager page either by opening the Pipeline Manager tab or by clicking on the Manage Releases link from the pipeline record.
+ 
+ 
+
+ 
+ 
+
+ 
+Here is an example:
+ 
+ 
+
+ 
+Different actions can be performed from the pipeline manager:
+ 
+See at a glance the user stories ahead and behind count in all environments. Bear in mind that this applies when the calculation logic of the page is based on user stories.
+Define the behavior of connections between environments in order to schedule or automate deployments and back promotions, or implement quality gates such as validations, compliance scans or Selenium tests.
+Filter the pipeline to determine which environments and user stories are displayed and share those filters with all users on your team.
+Orchestrate all your user story deployments from a single page. Execute promotions, back promotions and mass back promotions all from the same place, without moving across different pages.
+See at a glance the status of the last deployment to an org.
+View all the environment variables linked to your pipeline.
+Validate the Selenium test groups associated with each environment.
+Review the results of your compliance scans in each environment.
+
+
+
+
+
